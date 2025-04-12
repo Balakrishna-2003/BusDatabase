@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MainActivity extends AppCompatActivity {
-
+    Scroller mScroller;
     public class swipeListener implements View.OnTouchListener {
         GestureDetector gestureDetector;
 
@@ -57,8 +58,37 @@ public class MainActivity extends AppCompatActivity {
                                 if(Math.abs(yDiff) > threshold && Math.abs(velocityY) > velocity_threshold){
                                     if(yDiff > 0){
                                         Toast.makeText(MainActivity.this, "swipe down", Toast.LENGTH_SHORT).show();
+                                        int deltaX = (int) (velocityX * 10); // Adjust the scaling factor as needed
+                                        int deltaY = (int) (velocityY * 10);
+
+                                        ScrollView scrollView = findViewById(R.id.bus_list_swipe);
+                                        mScroller.startScroll(scrollView.getScrollX(), scrollView.getScrollY(), deltaX, deltaY, 50);
+//                                        scrollView.post(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                scrollView.setScrollX(scrollView.getScrollX() + deltaX);
+//                                                scrollView.setScrollY(scrollView.getScrollY() + deltaY);
+//                                                scrollView.post(this);
+//                                            }
+//                                        });
+
+                                        return true;
+
                                     }else{
                                         Toast.makeText(MainActivity.this, "swipe up", Toast.LENGTH_SHORT).show();
+                                        int deltaX = (int) (velocityX * 10); // Adjust the scaling factor as needed
+                                        int deltaY = (int) (velocityY * 10);
+
+                                        ScrollView scrollView = findViewById(R.id.bus_list_swipe);
+                                        mScroller.startScroll(scrollView.getScrollX(), scrollView.getScrollY(), deltaX, deltaY, 50);
+//                                        scrollView.post(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                scrollView.setScrollX(scrollView.getScrollX() + deltaX);
+//                                                scrollView.setScrollY(scrollView.getScrollY() + deltaY);
+//                                                scrollView.post(this);
+//                                            }
+//                                        });
                                     }
                                     return true;
                                 }
@@ -96,6 +126,14 @@ public class MainActivity extends AppCompatActivity {
         swipeListener swipeListener = new swipeListener(relativeLayout);
         ScrollView s = findViewById(R.id.bus_list_swipe);
         swipeListener = new swipeListener(s);
+
+        TextView textView = findViewById(R.id.textView);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            }
+        });
 
 
 
