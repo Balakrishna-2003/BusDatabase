@@ -49,6 +49,8 @@ public class Moorkaveri_Elinje extends AppCompatActivity {
                         if(Math.abs(xDiff) > threshold && Math.abs(velocityX) > velocity_threshold) {
                             if (xDiff > 0) {
                                 Toast.makeText(Moorkaveri_Elinje.this, "swipe right", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Moorkaveri_Elinje.this, Vamanjoor_kaikamba.class));
+                                finish();
                             } else {
                                 startActivity(new Intent(Moorkaveri_Elinje.this, MainActivity.class));
                                 finish();

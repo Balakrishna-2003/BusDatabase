@@ -1,13 +1,18 @@
 package com.NextBus.nextbus;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -18,9 +23,12 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -110,6 +118,81 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void add(){
+        LinearLayout bus_list = findViewById(R.id.bus_list);
+        bus_list.removeAllViews();
+        LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ll.setMargins(20, 10, 20, 0);
+
+        Database db = new Database(this);
+        Cursor cursor = db.getData("kai_kinnigoli");
+        cursor.moveToNext();
+
+        while (cursor.moveToNext()) {
+
+            CardView card = new CardView(this);
+            card.setCardElevation(30);
+            card.setRadius(10);
+            card.setLayoutParams(ll);
+            card.setBackground(getDrawable(R.drawable.cus_back));
+
+
+
+            RelativeLayout r1 = new RelativeLayout(this);
+            RelativeLayout.LayoutParams rr = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            rr.setMargins(50, 20, 50, 40);
+            r1.setLayoutParams(rr);
+
+            RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            leftParams.setMarginStart(50);
+            TextView textLeft = new TextView(this);
+            textLeft.setText(cursor.getString(0));
+            textLeft.setTextSize(20);
+            textLeft.setTypeface(null, Typeface.BOLD);
+            textLeft.setTextColor(Color.BLACK);
+            leftParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+            textLeft.setLayoutParams(leftParams);
+
+            TextView Rightview = new TextView(this);
+            Rightview.setText(cursor.getString(1));
+            Rightview.setTextSize(20);
+            Rightview.setTextColor(Color.BLACK);
+            Rightview.setTypeface(null, Typeface.BOLD);
+
+            RelativeLayout.LayoutParams rightParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT
+            );
+            rightParams.setMarginEnd(100);
+            rightParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+            Rightview.setLayoutParams(rightParams);
+
+            card.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    LinearLayout bus_list = findViewById(R.id.bus_list);
+                    bus_list.removeView(v);
+                    db.deletebs("kai_kinnigoli", textLeft.getText().toString(), Integer.parseInt(Rightview.getText().toString()));
+                    return true;
+                }
+            });
+
+            r1.addView(textLeft);
+            r1.addView(Rightview);
+
+            card.addView(r1);
+            bus_list.addView(card);
+        }
+    }
+
+    public void delete(View v){
+        LinearLayout bus_list = findViewById(R.id.bus_list);
+        bus_list.removeView(v);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout bus_list = findViewById(R.id.bus_list);
         LinearLayout.LayoutParams ll = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ll.setMargins(20,10, 20, 0);
+        ll.setMargins(20, 10, 20, 0);
         LinearLayout.LayoutParams ll2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams ll3 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -136,82 +219,91 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
         String[][] arr = new String[26][2];
-        arr[0][0] = "navadurga"; arr[0][1] = "10:00";
-        arr[1][0] = "sri laxmi"; arr[1][1] = "11:00";
-        arr[2][0] = "holy family"; arr[2][1] = "12:00";
-        arr[3][0] = "holy family"; arr[3][1] = "12:00";
-        arr[4][0] = "holy family"; arr[4][1] = "12:00";
-        arr[5][0] = "nandini";     arr[5][1] = "12:00";
-        arr[6][0] = "nandini";     arr[6][1] = "12:00";
-        arr[7][0] = "nandini";     arr[7][1] = "12:00";
-        arr[8][0] = "nandini";     arr[8][1] = "12:00";
-        arr[9][0] = "nandini";     arr[9][1] = "12:00";
-        arr[10][0] = "nandini";     arr[10][1] = "12:00";
-        arr[11][0] = "nandini";     arr[11][1] = "12:00";
-        arr[12][0] = "nandini";     arr[12][1] = "12:00";
-        arr[13][0] = "nandini";     arr[13][1] = "12:00";
-        arr[14][0] = "nandini";     arr[14][1] = "12:00";
-        arr[15][0] = "nandini";     arr[15][1] = "12:00";
-        arr[16][0] = "nandini";     arr[16][1] = "12:00";
-        arr[17][0] = "nandini";     arr[17][1] = "12:00";
-        arr[18][0] = "nandini";     arr[18][1] = "12:00";
-        arr[19][0] = "nandini";     arr[19][1] = "12:00";
-        arr[20][0] = "nandini";     arr[20][1] = "12:00";
-        arr[21][0] = "nandini";     arr[21][1] = "12:00";
-        arr[22][0] = "nandini";     arr[22][1] = "12:00";
-        arr[23][0] = "nandini";     arr[23][1] = "12:00";
-        arr[24][0] = "nandini";     arr[24][1] = "12:00";
-        arr[25][0] = "nandini";     arr[25][1] = "12:00";
+        arr[0][0] = "navadurga";
+        arr[0][1] = "10:00";
+        arr[1][0] = "sri laxmi";
+        arr[1][1] = "11:00";
+        arr[2][0] = "holy family";
+        arr[2][1] = "12:00";
+        arr[3][0] = "holy family";
+        arr[3][1] = "12:00";
+        arr[4][0] = "holy family";
+        arr[4][1] = "12:00";
+        arr[5][0] = "nandini";
+        arr[5][1] = "12:00";
+        arr[6][0] = "nandini";
+        arr[6][1] = "12:00";
+        arr[7][0] = "nandini";
+        arr[7][1] = "12:00";
+        arr[8][0] = "nandini";
+        arr[8][1] = "12:00";
+        arr[9][0] = "nandini";
+        arr[9][1] = "12:00";
+        arr[10][0] = "nandini";
+        arr[10][1] = "12:00";
+        arr[11][0] = "nandini";
+        arr[11][1] = "12:00";
+        arr[12][0] = "nandini";
+        arr[12][1] = "12:00";
+        arr[13][0] = "nandini";
+        arr[13][1] = "12:00";
+        arr[14][0] = "nandini";
+        arr[14][1] = "12:00";
+        arr[15][0] = "nandini";
+        arr[15][1] = "12:00";
+        arr[16][0] = "nandini";
+        arr[16][1] = "12:00";
+        arr[17][0] = "nandini";
+        arr[17][1] = "12:00";
+        arr[18][0] = "nandini";
+        arr[18][1] = "12:00";
+        arr[19][0] = "nandini";
+        arr[19][1] = "12:00";
+        arr[20][0] = "nandini";
+        arr[20][1] = "12:00";
+        arr[21][0] = "nandini";
+        arr[21][1] = "12:00";
+        arr[22][0] = "nandini";
+        arr[22][1] = "12:00";
+        arr[23][0] = "nandini";
+        arr[23][1] = "12:00";
+        arr[24][0] = "nandini";
+        arr[24][1] = "12:00";
+        arr[25][0] = "nandini";
+        arr[25][1] = "12:00";
 
-        for(int i = 0; i<26; i++){
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog alertDialog = new Dialog(MainActivity.this);
+                alertDialog.setContentView(R.layout.dialog_layout);
+                alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                alertDialog.setCancelable(true);
+                alertDialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+                alertDialog.show();
 
-            CardView card = new CardView(this);
-            card.setCardElevation(30);
-            card.setRadius(10);
-            card.setLayoutParams(ll);
-            card.setBackground(getDrawable(R.drawable.cus_back));
+                EditText name = alertDialog.findViewById(R.id.alert_bus_name);
+                EditText time = alertDialog.findViewById(R.id.alert_bus_time);
+                TextView submit = alertDialog.findViewById(R.id.okay_text);
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!name.getText().toString().isEmpty() && !time.getText().toString().isEmpty()){
+                            Database db = new Database(MainActivity.this);
+                            Toast.makeText(MainActivity.this, "hello world", Toast.LENGTH_SHORT).show();
+                            db.insertdb("kai_kinnigoli",name.getText().toString(), Integer.parseInt(time.getText().toString()));
+                            add();
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
 
-            RelativeLayout r1 = new RelativeLayout(this);
-            RelativeLayout.LayoutParams rr = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            rr.setMargins(50,20,50,40);
-            r1.setLayoutParams(rr);
+            }
+        });
 
-            RelativeLayout.LayoutParams leftParams = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-            );
-            leftParams.setMarginStart(50);
-            TextView textLeft = new TextView(this);
-            textLeft.setText(arr[i][0]);
-            textLeft.setTextSize(20);
-            textLeft.setTypeface(null,Typeface.BOLD);
-            textLeft.setTextColor(Color.BLACK);
-            leftParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-            textLeft.setLayoutParams(leftParams);
-
-            TextView Rightview = new TextView(this);
-            Rightview.setText(arr[i][1]);
-            Rightview.setTextSize(20);
-            Rightview.setTextColor(Color.BLACK);
-            Rightview.setTypeface(null,Typeface.BOLD);
-
-            RelativeLayout.LayoutParams rightParams = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT
-            );
-            rightParams.setMarginEnd(100);
-            rightParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-            Rightview.setLayoutParams(rightParams);
-
-            r1.addView(textLeft);
-            r1.addView(Rightview);
-
-            card.addView(r1);
-            bus_list.addView(card);
-        }
+        add();
 
     }
 }
