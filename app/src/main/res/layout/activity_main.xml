@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#222222"
+    >
+
+    <ScrollView
+        android:id="@+id/nav_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="scroll for navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/curr_view"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="Kaimkamba\n~\n kinnigoli"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/custom_nav"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="Moorukaveri\n~\nElinje"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/custom_nav"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="Vamanjoor\n~\nKaikamba"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_id"
+        android:background="#DCC7C7"
+        android:orientation="horizontal"
+        android:layout_marginTop="2dp">
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Bus name"
+            android:textColor="#040404"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Timing"
+            android:textColor="#0C0B0B"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/swipe_ges"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/bus_list_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="scrollview for displaying the list of busses"
+        android:layout_below="@+id/info"
+        android:layout_marginBottom="30dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/bus_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
