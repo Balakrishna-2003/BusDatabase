@@ -19,9 +19,9 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+tbname+"( name TEXT, arrival_time INT)");
-        db.execSQL("CREATE TABLE "+tbname1+"( name TEXT, arrival_time INT)");
-        db.execSQL("CREATE TABLE "+tbname2+"( name TEXT, arrival_time INT)");
+        db.execSQL("CREATE TABLE "+tbname+"( name TEXT, arrival_time DATE)");
+        db.execSQL("CREATE TABLE "+tbname1+"( name TEXT, arrival_time DATE)");
+        db.execSQL("CREATE TABLE "+tbname2+"( name TEXT, arrival_time DATE)");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertdb(String tname, String bname, int time){
+    public void insertdb(String tname, String bname, String time){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", bname);
@@ -40,12 +40,12 @@ public class Database extends SQLiteOpenHelper {
     }
     public Cursor getData(String tname){
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM "+tname, null);
+        return db.rawQuery("SELECT * FROM "+tname+" ORDER BY arrival_time ASC;", null);
     }
 
-    public void deletebs(String tname, String bname, int time){
+    public void deletebs(String tname, String bname, String time){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM "+tname+" WHERE name = '"+bname+"' AND arrival_time = "+time+";");
+        db.execSQL("DELETE FROM "+tname+" WHERE name = '"+bname+"' AND arrival_time = '"+time+"';");
     }
 
 }
