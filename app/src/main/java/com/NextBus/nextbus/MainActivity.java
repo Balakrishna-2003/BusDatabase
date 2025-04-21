@@ -489,6 +489,7 @@ public class MainActivity extends AppCompatActivity {
 //                    });
 //                    se1.startAnimation(fadeOut);
 //                }
+//                just for commit testing
             }
         });
         LinearLayout te = findViewById(R.id.third_card);
